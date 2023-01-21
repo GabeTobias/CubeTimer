@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rubiks Timer</title>
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+  <script defer src="main.js"></script>
+
+</head>
+<body>
+  <div class="container" ng-app="CubeTimer" ng-keydown="keyDown()" ng-keyup="keyUp()">
+    <div ng-controller="Timer" class="text-center">
+      <h1 class="w-100 mt-5" style="font-size: 6rem;">{{timer}}</h1>
+      <h5 class="w-100 fw-lighter">
+        <span ng-if="(!pressingLeft || !pressingRight) && !running">
+          Press <strong class="fst-italic fw-bold" ng-if="!pressingLeft">'Left Shift'</strong> + <strong class="fst-italic fw-bold" ng-if="!pressingRight">'Right Shift'</strong> to Begin
+        </span>
+        <strong ng-if="(pressingLeft && pressingRight) || running">{{(running) ? "Press Space to stop":"Release to start!"}}</strong>
+      </h5>
+
+      <hr>
+      
+      <p class="w-100 text-center mb-3 mt-3 fs-4" ng-click="scramble=getScramble()">{{(scramble.length > 0) ? scramble:'Click for Scramble'}}</p>
+      
+      <div>
+        <hr ng-if="solves.length > 0">
+        <table class="table table-striped table-hover mt-4">
+          <tbody>
+            <tr ng-repeat="solve in solves" ng-mouseenter="solve.hovered=true" ng-mouseleave="solve.hovered=false">
+              <td>{{$index}}</td>
+              <td>{{solve.scramble}}</td>
+              <th scope="row">{{solve.time}}</th>
+              <td>
+                <a ng-if="solve.hovered" href="#" class="link-danger ml-4" ng-click="delete($index)">Delete</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
